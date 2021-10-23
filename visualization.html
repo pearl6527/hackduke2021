@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+		<title>3. Selection & Filtering</title>
+    <script type="text/javascript" src="d3.js"></script>
+    <style type="text/css">
+      h1 {
+        padding-left: 0.5em;
+        font-family: sans-serif;
+      }
+
+    </style>
+  </head>
+  <body>
+    <h1>3. Selection & Filtering</h1>
+
+    <script type="text/javascript">
+      let main_w = 950;
+      let w = 750;
+			let h = 500;
+      let padding = 60;
+
+      let svg = d3.select("body")
+				.append("svg")
+	      .attr("width", main_w)
+	      .attr("height", h);
+      
+      let rowConverter = function(d) {
+				return {
+          Gender: d.Gender,
+					NotApp: parseFloat(d["NA"]),
+          Never: parseFloat(d.Never),
+          Rarely: parseFloat(d.Rarely),
+          Sometimes: parseFloat(d.Sometimes),
+          Often: parseFloat(d.Often)
+				};
+			};
+
+			d3.csv("gender_work.csv", rowConverter).then( (data)=> {
+				console.log(data);
+
+        let view = 0;
+
+        let xScale = d3.scaleBand()
+          .domain(["female", "male", "other"])
+          .range([padding, w - padding])
+          .paddingInner(0.4)
+          .paddingOuter(0.2);
+
+        let yScale = d3.scaleLinear()
+          .domain([0, 1])
+          .range([h - padding, padding]);
+
+        let xAxis = d3.axisBottom()
+          .scale(xScale);
+
+        let yAxis = d3.axisLeft()
+          .scale(yScale)
+          .ticks(8);
+
+        svg.append("text")
+          .attr("id", "plottitle")
+          .attr("x", w / 2)
+          .attr("y", padding / 2)
+          .attr("text-anchor", "middle")
+          .attr("font-family", "sans-serif")
+          .attr("font-size", "24px")
+          .attr("fill", "black")
+          .attr("stroke", "black")
+          .attr("stroke-width", 0.3)
+          .text("Work Interference by Gender");
+
+        let aCol = "#2a4858";
+        let bCol = "#007383";
+        let cCol = "#00a08d";
+        let dCol = "#29c974";
+        let eCol = "#aeeb3e";
+
+        svg.selectAll("rect.a")
+					.data(data)
+					.enter()
+					.append("rect")
+          .attr("class", "a")
+					.attr("x", (d)=> { return 1 + xScale(d.Gender) })
+          .attr("y", (d)=> { return yScale(d.NotApp) })
+          .attr("height", (d)=> { return h - padding - yScale(d.NotApp) })
+          .attr("width", xScale.bandwidth() - 2)
+          .attr("stroke", aCol)
+          .attr("fill", aCol);
+
+        svg.selectAll("rect.b")
+					.data(data)
+					.enter()
+					.append("rect")
+          .attr("class", "b")
+					.attr("x", (d)=> { return 1 + xScale(d.Gender) })
+          .attr("y", (d)=> { return yScale(d.NotApp + d.Never) })
+          .attr("width", xScale.bandwidth() - 2)
+          .attr("height", (d)=> { return h - padding - yScale(d.Never) })
+          .attr("stroke", bCol)
+          .attr("fill", bCol);
+          
+        svg.selectAll("rect.c")
+					.data(data)
+					.enter()
+					.append("rect")
+          .attr("class", "c")
+					.attr("x", (d)=> { return 1 + xScale(d.Gender) })
+          .attr("y", (d)=> { return yScale(d.NotApp + d.Never + d.Rarely) })
+          .attr("width", xScale.bandwidth() - 2)
+          .attr("height", (d)=> { return h - padding - yScale(d.Rarely) })
+          .attr("stroke", cCol)
+          .attr("fill", cCol);
+
+        svg.selectAll("rect.d")
+					.data(data)
+					.enter()
+					.append("rect")
+          .attr("class", "d")
+					.attr("x", (d)=> { return 1 + xScale(d.Gender) })
+          .attr("y", (d)=> { return yScale(d.NotApp + d.Never + d.Rarely + d.Sometimes) })
+          .attr("width", xScale.bandwidth() - 2)
+          .attr("height", (d)=> { return h - padding - yScale(d.Sometimes) })
+          .attr("stroke", dCol)
+          .attr("fill", dCol);
+
+        svg.selectAll("rect.e")
+					.data(data)
+					.enter()
+					.append("rect")
+          .attr("class", "e")
+					.attr("x", (d)=> { return 1 + xScale(d.Gender) })
+          .attr("y", (d)=> { return yScale(d.NotApp + d.Never + d.Rarely + d.Sometimes + d.Often) })
+          .attr("width", xScale.bandwidth() - 2)
+          .attr("height", (d)=> { return h - padding - yScale(d.Often) })
+          .attr("stroke", eCol)
+          .attr("fill", eCol);
+
+        // axes
+        svg.append("g")
+          .attr("class", "x axis")
+          .style("font-size", "15px")
+          .attr("transform", "translate(0, " + (h - padding) + ")")
+          .call(xAxis);
+        svg.append("g")
+          .attr("class", "y axis")
+          .attr("transform", "translate(" + padding + ", 0)")
+          .call(yAxis);
+
+        // y-axis label
+        svg.append("text")
+          .attr("class", "y label")
+          .attr("text-anchor", "middle")
+          .attr("font-family", "sans-serif")
+          .attr("font-size", "14px")
+          .attr("fill", "black")
+          .attr("stroke", "black")
+          .attr("stroke-width", 0.3)
+          .attr("x", 60)
+          .attr("y", 320)
+          .attr("transform", "rotate(270, 10, 300)")
+          .text("work_interfere");
+        
+        
+
+			});
+
+		</script>
+  </body>
+</html>
