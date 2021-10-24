@@ -31,3 +31,7 @@ Every team member gained a significant amount of experience after working with t
 The d3.js team member grew even more familiar with creating interactive visualizations using the D3 JavaScript library, including discovering [Riccardo Scalco's handy textures.js library](https://riccardoscalco.it/textures/) for SVG patterns, and even improved their HTML and CSS skills while inserting the graph into the web page. 
 
 The Notebook team members both gained a lot of experience with exploratory data analysis in Python, including visualizing the data, generating regression models, and determining whether a hypothesis has the statistical support behind it or not.
+
+## Acknowledgements
+* d3.js from https://github.com/d3/d3
+* textures.js from https://github.com/riccardoscalco/textures
