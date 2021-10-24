@@ -6,5 +6,5 @@
 
 
 ## technologies
-* d3.js
+* D3.js: https://d3js.org/
 * textures.js by Riccardo Scalco: https://riccardoscalco.it/textures/
