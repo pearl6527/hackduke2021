@@ -1,4 +1,4 @@
-#HackDuke 2021 (Code For Good) - Health Track Submission
+# HackDuke 2021 (Code For Good) - Health Track Submission
 ## Inspiration
 When looking through the different tracks, our team decided that our goal was to find a dataset among the hundreds of millions on the internet that had the potential to make an impact on the world, and give it the attention it deserves. When we came across the [Survey on Mental Health in the Tech Workplace in 2014](https://www.kaggle.com/osmi/mental-health-in-tech-survey) published by the group, Open Sourcing Mental Illness, that hidden potential immediately started to show. From there, our team immediately went to work and began to tidy the data before jumping headfirst into the analyses. Our result is our [fully documented Jupyter Notebook](https://ronak-thakur.github.io/hackduke2021/).
 
