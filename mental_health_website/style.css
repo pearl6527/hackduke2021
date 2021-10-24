@@ -11,10 +11,6 @@ body {
     position: sticky;
     top: 0;
     z-index: 10;
-    /* padding-right: 5px; */
-    /* padding-left: 5px;
-    /* margin-left: 5px;
-    margin-right: 5px; */
 }
 .navbar {
     background-image: linear-gradient(to right, #151515, #343434);
@@ -39,9 +35,6 @@ body {
 }
 
 .navbar-toggler {
-    /* outline: none !important;
-    -webkit-appearance: none; 
-    box-shadow: none; */
     box-shadow: none !important
 }
 
@@ -122,7 +115,7 @@ body {
 /*----About-Us Section----*/
 #about-us {
     background: #f8f9fa;
-    padding-bottom: 50px;
+    /* padding-bottom: 50px; */
     padding-top: 50px;
 
 }
@@ -131,17 +124,13 @@ body {
     font-weight: 600;
     margin-top: 8%;
 }
-#about-us ul li {
+.about-paragraph {
     margin: 10px 0;
-}
-
-#about-us ul {
-    margin-left: 20px;
 }
 
 /*----Testimonials Section----*/
 #testimonials {
-    margin: 100px 0;
+    margin: 50px 0;
 }
 .testimonials {
     border-left: 4px solid #343434;
@@ -170,7 +159,7 @@ body {
     margin-bottom: 30px;
 }
 .social-icons img {
-    width: 60px;
+    width: 100px;
     transition: 0.5s;
 }
 .social-icons a:hover img {
