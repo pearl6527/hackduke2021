@@ -226,17 +226,21 @@
 
             for (let k = 0; k < n_groups; k++) {
               if (k != cat) {
-                // if (prev != "-1") {
+                if (prev != "-1") {
                   d3.selectAll("rect.data.group" + k).data(data)
                     .transition()
                     .attr("y", (d)=> { return yScale(0) })
                     .attr("height", (d)=> { return h - padding - yScale(0) })
                     .transition()
                     .attr("opacity", 0);
-                // } else {
-                //   d3.selectAll("rect.data.group" + k).transition()
-                //     .attr("opacity", 0);
-                // }
+                } else {
+                  d3.selectAll("rect.data.group" + k)
+                    .transition()
+                    .attr("opacity", 0)
+                    .transition()
+                    .attr("y", (d)=> { return yScale(0) })
+                    .attr("height", (d)=> { return h - padding - yScale(0) });
+                }
                 svg.selectAll("rect.key.group" + k)
                   .transition()
                   .attr("opacity", 0);
