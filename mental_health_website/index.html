@@ -10,26 +10,26 @@
         <section id="nav-bar">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container-fluid">
-                  <a class="navbar-brand" href="#">HackDuke Team</a>
+                  <a class="navbar-brand" style="padding-left:5px" href="#">HackDuke Team</a>
                   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                   </button>
                   <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav mr-auto" style="padding-right:10px">
                       <li class="nav-item">
-                        <a class="nav-link" href="#">Introduction</a>
+                        <a class="nav-link" href="#top">Introduction</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#">Problem</a>
+                        <a class="nav-link" href="#services">Problem</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#">Interactive Data</a>
+                        <a class="nav-link" href="#about-us">Interactive Data</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#">Full Data Analysis</a>
+                        <a class="nav-link" href="#testimonials">Full Data Analysis</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#">Moving Forward</a>
+                        <a class="nav-link" href="#footer">Moving Forward</a>
                       </li>
                     </ul>
                   </div>
@@ -84,8 +84,87 @@
             </div>
         </section>
         
+        <!----About Us Section---->
+        <section id="about-us">
+            <div class="container">
+                <h1 class="title text-center">SECTION 3</h1>
+                <div class="row">
+                    <div class="col-md-6 about-us">
+                        <p class="about-title">Section 3.1 Title</p>
+                        <ul>
+                            <li>Section 3 List Item</li>
+                            <li>Section 3 List Item</li>
+                            <li>Section 3 List Item</li>
+                            <li>Section 3 List Item</li>
+                            <li>Section 3 List Item</li>
+                            <li>Section 3 List Item</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 about-us">
+                        <img src="images/network.png" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!----Testimonials Section---->
+        <section id="testimonials">
+            <div class="container">
+                <h1 class="title text-center">SECTION 4</h1>
+                <div class="row offset-2">
+                    <div class="col-md-5 testimonials">
+                        <p>This is some text in section 4.</p>
+                        <img src="images/user1.jpg">
+                        <p class="user-details"><b>Name</b><br>Co-founder at Company</p>
+                    </div>
+                    <div class="col-md-5 testimonials">
+                        <p>This is some text in section 4.</p>
+                        <img src="images/user2.jpg">
+                        <p class="user-details"><b>Name 2</b><br>Co-founder at Company 2</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!----Social Media Section---->
+        <section id="social-media"> 
+            <div class="container text-center">
+                <p>SECTION 5</p>
+                <div class="social-icons">
+                    <a href="#"><img src="images/facebook-icon.png"></a>
+                    <a href="#"><img src="images/instagram-icon.png"></a>
+                    <a href="#"><img src="images/twitter-icon.png"></a>
+                    <a href="#"><img src="images/whatsapp-icon.png"></a>
+                    <a href="#"><img src="images/linkedin-icon.png"></a>
+                    <a href="#"><img src="images/snapchat-icon.png"></a>
+                </div>
+            </div>
+        </section>
+
+        <!----Footer Section---->
+        <section id="footer">
+            <img src="images/wave2.png" class="footer-img">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 footer-box">
+                        <img src="images/demo-logo.png">
+                        <p>Footer Text</p>
+                    </div>
+                    <div class="col-md-4 footer-box">
+                        <p><b>Footer Tag</b></p>
+                        <P>More Footer Stuff</P>
+                        <P>More Footer Stuff</P>
+                        <P>More Footer Stuff</P>
+                    </div>
+                </div>
+            </div>
+        </section>
 
 
-
+        <!----Smooth Scroll Section---->
+        <script src="smooth-scroll.js"></script>
+        <script>
+            var scroll = new SmoothScroll('a[href*="#"]');
+        </script>
     </body>
 </html>
