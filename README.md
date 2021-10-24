@@ -28,6 +28,6 @@ Similarly, for the team members who worked on the Notebook analysis, their most 
 ## What we learned
 Every team member gained a significant amount of experience after working with their aspect of the project. The team member who worked with HTML and CSS got a much better understanding of how a website is built (even with the use of online tutorials and resources). 
 
-The d3.js team member grew even more familiar with visualizing plots using the d3 JavaScript library and even improved their HTML and CSS skills while inserting the graph into the web page. 
+The d3.js team member grew even more familiar with creating interactive visualizations using the D3 JavaScript library, including discovering [Riccardo Scalco's handy textures.js library](https://riccardoscalco.it/textures/) for SVG patterns, and even improved their HTML and CSS skills while inserting the graph into the web page. 
 
 The Notebook team members both gained a lot of experience with exploratory data analysis in Python, including visualizing the data, generating regression models, and determining whether a hypothesis has the statistical support behind it or not.
