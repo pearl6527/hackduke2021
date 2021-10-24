@@ -54,10 +54,10 @@
 			<input class="genderFilter" type="radio" name="filterPreset" value="1"> Male
 		</p>
 
-    <svg height="10" width="10" xmlns="http://www.w3.org/2000/svg" version="1.1"> <defs> <pattern id="diagonal-stripe-3" patternUnits="userSpaceOnUse" width="10" height="10"> <image xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+CiAgPHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPSd3aGl0ZScvPgogIDxwYXRoIGQ9J00tMSwxIGwyLC0yCiAgICAgICAgICAgTTAsMTAgbDEwLC0xMAogICAgICAgICAgIE05LDExIGwyLC0yJyBzdHJva2U9J2JsYWNrJyBzdHJva2Utd2lkdGg9JzMnLz4KPC9zdmc+" x="0" y="0" width="10" height="10"> </image> </pattern> </defs> </svg>
     <script type="text/javascript">
-      let main_w = 950;
+      let main_w = 1000;
       let w = 750;
+      let left_marg = 125;
 			let h = 500;
       let padding = 70;
 
@@ -67,14 +67,6 @@
 	      .attr("height", h);
       
       let rowConverter = function(d) {
-				// return {
-        //   Gender: d.Gender,
-				// 	 NotApp: parseFloat(d["NA"]),
-        //   Never: parseFloat(d.Never),
-        //   Rarely: parseFloat(d.Rarely),
-        //   Sometimes: parseFloat(d.Sometimes),
-        //   Often: parseFloat(d.Often)
-				// };
 
         return {
           work_interfere: d.work_interfere,
@@ -100,7 +92,7 @@
 
         let xScale = d3.scaleBand()
           .domain(key_attr)
-          .range([padding, w - padding])
+          .range([left_marg + padding, left_marg + w - padding])
           .paddingInner(0.4)
           .paddingOuter(0.2);
 
@@ -117,7 +109,7 @@
 
         svg.append("text")
           .attr("id", "plottitle")
-          .attr("x", w / 2)
+          .attr("x", left_marg + w / 2)
           .attr("y", padding / 2)
           .attr("text-anchor", "middle")
           .attr("font-family", "sans-serif")
@@ -206,7 +198,7 @@
           .call(xAxis);
         svg.append("g")
           .attr("class", "y axis")
-          .attr("transform", "translate(" + padding + ", 0)")
+          .attr("transform", "translate(" + (left_marg + padding) + ", 0)")
           .call(yAxis);
 
         // y-axis label
@@ -219,12 +211,12 @@
           .attr("stroke", "black")
           .attr("stroke-width", 0.3)
           .attr("x", 60)
-          .attr("y", 320)
+          .attr("y", left_marg + 320)
           .attr("transform", "rotate(270, 10, 300)")
           .text("People (count)");
 
         // legend
-        let legend_x = w - padding / 2;
+        let legend_x = left_marg + w - padding / 2;
 
         svg.append("text")
           .attr("class", "y label")
