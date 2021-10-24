@@ -310,7 +310,7 @@
           .on("click", function() {
             // console.log(d3.select(this).node().value);
             let cat = d3.select(this).node().value;
-            console.log(prev, cat);
+            // console.log(prev, cat);
 
             if (cat == "clear") {
               yScale.domain([0, 5 + d3.max(data, (d)=> { return Math.max(d.female, d.male) })]);
@@ -432,9 +432,9 @@
           let xPosition = parseFloat(item.attr("x")) + xScale.bandwidth() / 2;
 					let yPosition = padding + (2 * parseFloat(item.attr("y")) + parseFloat(item.attr("height"))) / 2;
           
-          console.log(xPosition, yPosition)
-          console.log(parseFloat(item.attr("y")))
-          console.log(parseFloat(item.attr("height")))
+          // console.log(xPosition, yPosition)
+          // console.log(parseFloat(item.attr("y")))
+          // console.log(parseFloat(item.attr("height")))
           //Update the tooltip position and value
           let toolt = d3.select("#tooltip")
             .style("left", xPosition + "px")
