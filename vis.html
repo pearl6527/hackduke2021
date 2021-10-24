@@ -381,10 +381,10 @@
                     .attr("y", (d)=> { return yScale(0) })
                     .attr("height", (d)=> { return h - padding - yScale(0) });
                 }
-                svg.selectAll("rect.key.group" + k)
+                svg.selectAll("rect.key.gender.group" + k)
                   .transition()
                   .attr("opacity", 0);
-                d3.selectAll("text.group" + k)
+                d3.selectAll("text.gender.group" + k)
                   .transition()
                   .attr("opacity", 0);
               }
@@ -410,10 +410,10 @@
               .transition()
               .attr("y", (d)=> { return yScale(d[gender_cat[cat]]) })
               .attr("height", (d)=> { return h - padding - yScale(d[gender_subcat[cat][0]]) });
-            svg.selectAll("rect.key.group" + cat)
+            svg.selectAll("rect.key.gender.group" + cat)
               .transition()
               .attr("opacity", 1);
-            d3.selectAll("text.group" + cat)
+            d3.selectAll("text.gender.group" + cat)
               .transition()
               .attr("opacity", 1);
 
