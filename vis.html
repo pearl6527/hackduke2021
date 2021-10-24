@@ -218,6 +218,7 @@
         // legend
         let legend_x = left_marg + w - padding / 2;
 
+        // gender
         svg.append("text")
           .attr("class", "y label")
           .attr("font-family", "sans-serif")
@@ -247,7 +248,7 @@
             .attr("font-family", "sans-serif");
         }
 
-
+        // benefits?
         svg.append("text")
           .attr("class", "y label")
           .attr("font-family", "sans-serif")
@@ -300,9 +301,8 @@
         
         d3.selectAll("input.genderFilter")
           .on("click", function() {
-            // console.log(d3.select(this).node().value);
+
             let cat = d3.select(this).node().value;
-            // console.log(prev, cat);
 
             if (cat == "clear") {
               yScale.domain([0, 5 + d3.max(data, (d)=> { return Math.max(d.female, d.male) })]);
@@ -358,7 +358,6 @@
               if (k != cat) {
                 if (prev != "-1") {
                   d3.selectAll("rect.data.group" + k)
-                    // .data(data)
                     .transition()
                     .attr("y", (d)=> { return yScale(0) })
                     .attr("height", (d)=> { return h - padding - yScale(0) })
@@ -366,7 +365,6 @@
                     .attr("opacity", 0);
                 } else {
                   d3.selectAll("rect.data.group" + k)
-                    // .data(data)
                     .transition()
                     .attr("opacity", 0)
                     .transition()
@@ -423,11 +421,8 @@
 
           let xPosition = parseFloat(item.attr("x")) + xScale.bandwidth() / 2;
 					let yPosition = padding + (2 * parseFloat(item.attr("y")) + parseFloat(item.attr("height"))) / 2;
-          
-          // console.log(xPosition, yPosition)
-          // console.log(parseFloat(item.attr("y")))
-          // console.log(parseFloat(item.attr("height")))
-          //Update the tooltip position and value
+
+          // Update the tooltip position and value
           let toolt = d3.select("#tooltip")
             .style("left", xPosition + "px")
             .style("top", yPosition + "px");			
