@@ -84,7 +84,7 @@
                     <div class="col-md-6">
                         <p class="data-title">Mental Health in Tech</p>
                         <p>
-                            How much does the work environment of tech companies influence how mental health impacts an employee's work? View our interactive data visualization model and full analysis to see the benefits of providing employees with adequate mental health benefits.
+                            How much does the work environment of tech companies influence how mental health impacts an employee's work? View our interactive data visualization model and full analysis to see the benefits of properly acknowledging mental health in the workplace.
                             <!-- Maybe change to like "curious to know" with the button being "let's find out together" -->
                         </p>
                         <a href="#services">
@@ -514,8 +514,6 @@
               
                     function create_tooltip(message, xPosition, yPosition, bg, outline, width, height, offset) {
             
-                      // let xPos = parseFloat(item.attr("x")) + xScale.bandwidth() / 2;
-                      // let yPos = padding + (2 * parseFloat(item.attr("y")) + parseFloat(item.attr("height"))) / 2;
 
                       svg.append("rect")
                       .attr("id", "tooltiprectv1")
@@ -549,27 +547,8 @@
                           .attr("font-family", "sans-serif")
                           .attr("font-size", "10px")
                           .attr("fill", outline)
-                          // .attr("stroke", outline)
-                          // .attr("stroke-width", 0.1)
                           .text(message[k]);
                       }                                                
-                        // console.log(xPosition, yPosition)
-                        // // console.log(parseFloat(item.attr("y")))
-                        // // console.log(parseFloat(item.attr("height")))
-                        // //Update the tooltip position and value
-                        // let toolt = d3.select("#tooltip")
-                        //   .style("left", xPosition + "px")
-                        //   .style("top", yPosition + "px");			
-                        
-                        // let percentage = 100 * d[gender_subcat[k][m]] / d[gender_cat[k]];
-                        // toolt.select("#value")
-                        //   .text(d[gender_subcat[k][m]] + " (" + percentage.toFixed(1) + "%)");
-              
-                        // toolt.select("#tooltipben")
-                        //   .text(m % 2 == 1 ? "yes" : "no");
-              
-                        // //Show the tooltip
-                        // d3.select("#tooltip").classed("hidden", false);
                     }
 
                     let remove_tooltip = function() {
@@ -593,7 +572,7 @@
                         
                         <p class="about-title">Mental Health Needs More Acknowledgement</p>
                         <p class="about-paragraph">
-                            As mental health awareness continues to grow among individual populations across the globe, so is the expectation for companies to acknowledge mental health for their employees. Unfortunately, <b>many workplaces in the world still fail to acknowledge mental health</b> as something that is worth their concern. As a result, their exists a large divide between workplaces that include mental health services within their benefits package, and those who do not.
+                            As mental health awareness continues to grow among individual populations across the globe, so is the expectation for companies to acknowledge mental health for their employees. Unfortunately, <b>many workplaces in the world still fail to acknowledge mental health</b> as something that is worth their concern. As a result, there exists a large divide between workplaces that publicly acknowledge mental health and care for their employees, and those who do not.
                         <p>
                         <p class="about-paragraph">
                             Our model above looked at <a href="https://www.kaggle.com/osmi/mental-health-in-tech-survey" style="color:#F37821"><b>a dataset from Open Sourcing Mental Illness in 2014</b></a> to examine the differences in employee performance between companies that support their employees' mental health, and those who don't. Our full anlysis linked below drew many more relations between how an employee's mental health is treated and their performance in the workplace. Finally, we ran analysis models that showed <b>statistically significant proof that mental health in the technology field is still a problem that needs to be addressed today.</b>

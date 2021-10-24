@@ -5,10 +5,10 @@ When looking through the different tracks, our team decided that our goal was to
 The inspiration for the [overall website which houses our project](https://ronak-thakur.github.io/hackduke2021-webpage/) was the idea to display one main piece of information as a interactive model that allows the user to easily view an important statistic. Although the majority of our analysis is within the Jupyter Notebook, the goal of the website was to convey the current situation of mental health in the technology field even without opening the Jupyter Notebook.
 
 ## What it does
-The Website: Provides an overview of our project in addition to an interactive data model that shows the relationship of how often employees are interfered at work depending on their gender, as well as their access to health benefits that include mental health within them. The website also provides a way to navigate to the full Jupyter Notebook analysis.
+The Website: Provides an overview of our project in addition to an interactive data mo
+del that shows the relationship of how often employees are interfered at work depending on their gender, as well as their access to health benefits that include mental health within them. The website also provides a way to navigate to the full Jupyter Notebook analysis.
 
-The Notebook: Includes our team's full exploratory data analysis on the 2014 survey data. This notebook is comprised of multiple regression models, statistical prediction tests, and a variety of graphs to best represent certain relations between variables.
-The goal of this analysis is to clearly show the advantages that employers are losing if they do not include mental health within their health plans. We believe that seeing these benefits in clear, numerical values will result in more companies in the technology field to grow and recognize the importance of accommodating for mental health issues within their health benefits. All of these goals come together in our ultimate hope that one day, all technology workplaces will grow to be a safe and inclusive place for all, despite their mental health.
+The Notebook: Includes our team's full exploratory data analysis on the 2014 survey data and is comprised of multiple regression models, statistical prediction tests, and a variety of graphs to best represent certain relations between variables. The goal of this analysis is to clearly show the advantages that employers are losing if they are not adequately acknowledging mental health in their workplace. We believe that seeing these advantages in clear, numerical values will result in more companies in the technology field to grow and recognize the importance of accommodating for mental health issues. All of these goals come together in our ultimate hope that one day, all technology workplaces will grow to be a safe and inclusive place for everyone.
 
 ## How we built it
 The Website: The website was built from the ground up using HTML, CSS, and several snippets from Bootstrap. The design of the website was a mix of individual team design and inspiration from an online resource that provided the fundamentals for learning HTML and CSS for this project. The website itself is hosted on a stand-alone GitHub page.
@@ -18,7 +18,7 @@ The Interactive Graph: This interactive graph was created from the ground up usi
 The Notebook: The Python Jupyter Notebook utilized the pandas, seaborn, numpy, matplotlib, statsmodel, and scikit learn libraries throughout all of the analysis. All of the data was first tidied and then sorted into a dataframe that contained the specific sample that would be focused on during each analysis. Depending on the variables being analyzed, various models and graphs would be generated, followed by a text description of each analysis. 
 
 ## Challenges we ran into
-One of the main challenges that we expected to run into (and ended up doing so) during this project is identifying specific variables within the data set that would convey the most impact through certain analyses. In order to overcome this obstacle, our team all sat down and took turns pointing out observations we found within the dataset as a whole. Through our conversations, we were able to identify correlations that ended up supporting our goal of finding data that shows the benefits of having mental health benefits in Technology environment. 
+One of the main challenges that we expected to run into (and ended up doing so) during this project is identifying specific variables within the data set that would convey the most impact through certain analyses. In order to overcome this obstacle, our team all sat down and took turns pointing out observations we found within the dataset as a whole. Through our conversations, we were able to identify correlations that ended up supporting our goal of finding data that shows the benefits of acknowledging mental health in the technology workplace environment. 
 
 ## Accomplishments that we're proud of
 For the team members who worked on the website, their favorite accomplishment was getting the interactive d3.js graph to look proper and function properly after being translated to the website. Seeing the finished product of the website was another major accomplishment.
@@ -32,6 +32,7 @@ The d3.js team member grew even more familiar with creating interactive visualiz
 
 The Notebook team members both gained a lot of experience with exploratory data analysis in Python, including visualizing the data, generating regression models, and determining whether a hypothesis has the statistical support behind it or not.
 
-## Acknowledgements
-* d3.js from https://github.com/d3/d3
-* textures.js from https://github.com/riccardoscalco/textures
+## Resources Referenced
+* d3.js: https://github.com/d3/d3
+* textures.js: https://github.com/riccardoscalco/textures
+* smooth-scroll.js: https://github.com/cferdinandi/smooth-scroll
