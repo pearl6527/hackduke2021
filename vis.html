@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+		<title>Mental Health in Tech</title>
+    <script type="text/javascript" src="d3.js"></script>
+    <script src="textures.js"></script>
+    <style type="text/css">
+      h1 {
+        padding-left: 0.5em;
+        font-family: sans-serif;
+      }
+      input[type=radio] {
+				margin-left: 40px;
+			}
+    </style>
+  </head>
+  <body>
+    <h1>Mental Health in Tech</h1>
+
+    <p>
+      <input class="genderFilter" type="radio" name="filterPreset" value="clear" checked="true"> All
+			<input class="genderFilter" type="radio" name="filterPreset" value="0"> Female
+			<input class="genderFilter" type="radio" name="filterPreset" value="1"> Male
+			<input class="genderFilter" type="radio" name="filterPreset" value="2"> Other
+		</p>
+
+    <svg height="10" width="10" xmlns="http://www.w3.org/2000/svg" version="1.1"> <defs> <pattern id="diagonal-stripe-3" patternUnits="userSpaceOnUse" width="10" height="10"> <image xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+CiAgPHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPSd3aGl0ZScvPgogIDxwYXRoIGQ9J00tMSwxIGwyLC0yCiAgICAgICAgICAgTTAsMTAgbDEwLC0xMAogICAgICAgICAgIE05LDExIGwyLC0yJyBzdHJva2U9J2JsYWNrJyBzdHJva2Utd2lkdGg9JzMnLz4KPC9zdmc+" x="0" y="0" width="10" height="10"> </image> </pattern> </defs> </svg>
+    <script type="text/javascript">
+      let main_w = 950;
+      let w = 750;
+			let h = 500;
+      let padding = 70;
+
+      let svg = d3.select("body")
+				.append("svg")
+	      .attr("width", main_w)
+	      .attr("height", h);
+      
+      let rowConverter = function(d) {
+				// return {
+        //   Gender: d.Gender,
+				// 	 NotApp: parseFloat(d["NA"]),
+        //   Never: parseFloat(d.Never),
+        //   Rarely: parseFloat(d.Rarely),
+        //   Sometimes: parseFloat(d.Sometimes),
+        //   Often: parseFloat(d.Often)
+				// };
+
+        return {
+          work_interfere: d.work_interfere,
+          female: parseFloat(d.female),
+          male: parseFloat(d.male),
+          other: parseFloat(d.other)
+        };
+			};
+
+			d3.csv("gender_work.csv", rowConverter).then( (data)=> {
+				console.log(data);
+
+        let view = 0;
+        let n_groups = Object.keys(data[0]).length - 1;
+        console.log(n_groups);
+        // let domain_labels = data.map(a => a.Gender);
+        // console.log(domain_labels);
+        let key_attr = ["Never", "Rarely", "Sometimes", "Often", "NA"];
+        let gender_cat = ["female", "male", "other"];
+
+        let xScale = d3.scaleBand()
+          .domain(key_attr)
+          .range([padding, w - padding])
+          .paddingInner(0.4)
+          .paddingOuter(0.2);
+
+        let yScale = d3.scaleLinear()
+          .domain([0, 1 + d3.max(data, (d)=> { return Math.max(d.female, d.male, d.other) })])
+          .range([h - padding, padding]);
+
+        let xAxis = d3.axisBottom()
+          .scale(xScale);
+
+        let yAxis = d3.axisLeft()
+          .scale(yScale)
+          .ticks(8);
+
+        svg.append("text")
+          .attr("id", "plottitle")
+          .attr("x", w / 2)
+          .attr("y", padding / 2)
+          .attr("text-anchor", "middle")
+          .attr("font-family", "sans-serif")
+          .attr("font-size", "24px")
+          .attr("fill", "black")
+          .attr("stroke", "black")
+          .attr("stroke-width", 0.3)
+          .text("Work Interference by Gender");
+
+        let colors = ["#2a4858", "#007383", "#00a08d", "#29c974", "#aeeb3e"];
+        let cumu_y = [];
+        for (let k = 0; k < key_attr.length; k++) {
+          cumu_y[k] = 0;
+        }
+
+
+        for (let k = 0; k < n_groups; k++) {
+          // let t = textures.lines()
+          //   .orientation("3/8", "7/8")
+          //   .size(6)
+          //   .strokeWidth(1)
+          //   .shapeRendering("crispEdges")
+          //   .stroke(colors[k])
+            // .fill(colors[k]);
+          svg.call(t);
+          svg.selectAll("rect.group" + k)
+            .data(data)
+            .enter()
+            .append("rect")
+            .attr("class", (d)=> {
+              let c = "group" + k;
+              return c;
+            })
+            .attr("x", (d)=> {
+              return 1 + xScale(d.work_interfere) + k * xScale.bandwidth() / 3;
+            })
+            .attr("y", (d, i)=> {
+              // cumu_y[i] += d[gender_cat[k]];
+              // return yScale(cumu_y[i]);
+              return yScale(d[gender_cat[k]]);
+            })
+            .attr("height", (d)=> {
+              return h - padding - yScale(d[gender_cat[k]]);
+            })
+            .attr("width", xScale.bandwidth() / 3 - 2)
+            .attr("stroke", colors[k])
+            .attr("fill", colors[k])
+            // .style("fill", t.url());
+        }
+
+        // axes
+        svg.append("g")
+          .attr("class", "x axis")
+          .style("font-size", "15px")
+          .attr("transform", "translate(0, " + (h - padding) + ")")
+          .call(xAxis);
+        svg.append("g")
+          .attr("class", "y axis")
+          .attr("transform", "translate(" + padding + ", 0)")
+          .call(yAxis);
+
+        // y-axis label
+        svg.append("text")
+          .attr("class", "y label")
+          .attr("text-anchor", "middle")
+          .attr("font-family", "sans-serif")
+          .attr("font-size", "14px")
+          .attr("fill", "black")
+          .attr("stroke", "black")
+          .attr("stroke-width", 0.3)
+          .attr("x", 60)
+          .attr("y", 320)
+          .attr("transform", "rotate(270, 10, 300)")
+          .text("count");
+
+        // legend
+        let legend_x = w - padding / 2;
+        for (let k = 0; k < gender_cat.length; k++) {
+          svg.append("rect")
+            .attr("class", "key gender group" + k)
+            .attr("x", legend_x)
+            .attr("y", padding + (k + 1) * 18)
+            .attr("fill", colors[k])
+            .attr("width", 14)
+            .attr("height", 14);
+          svg.append("text")
+            .text(gender_cat[k])
+            .attr("class", "key gender group" + k)
+            .attr("font-size", 12)
+            .attr("fill", "black")
+            .attr("x", legend_x + 18)
+            .attr("y", padding + (k + 1) * 18 + 11)
+            .attr("font-family", "sans-serif");
+        }
+        
+        d3.selectAll("input.genderFilter")
+          .on("click", function() {
+
+            // console.log(d3.select(this).node());
+            let cat = d3.select(this).node().value;
+
+            if (cat == "clear") {
+              d3.selectAll("rect")
+                .attr("opacity", 1);
+              return;
+            }
+
+            d3.selectAll("rect")
+              .attr("opacity", 1);
+
+            for (let k = 0; k < n_groups; k++) {
+              if (k != cat) {
+                console.log(k);
+                d3.selectAll("rect.group" + k)
+                  .attr("opacity", 0.4);
+              }
+            }
+            
+              // .filter((d)=> {
+              //   return d.Gender != cat;
+              // })
+              // .attr("opacity", 0.5);
+
+          });
+
+			});
+
+		</script>
+  </body>
+</html>
