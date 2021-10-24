@@ -32,6 +32,9 @@ The d3.js team member grew even more familiar with creating interactive visualiz
 
 The Notebook team members both gained a lot of experience with exploratory data analysis in Python, including visualizing the data, generating regression models, and determining whether a hypothesis has the statistical support behind it or not.
 
+## What comes next?
+There is more analysis to be done using additional data sets that support our mission to make the technology workplace a more inclusive space, especially regarding mental health. Our team hopes to continue our process of using data to present clear proof as to why companies should acknowledge mental health in the workplace. As the team's experience with data analysis grows, we hope to expand into even more rigorous analysis methods.
+
 ## Resources Referenced
 * d3.js: https://github.com/d3/d3
 * textures.js: https://github.com/riccardoscalco/textures
