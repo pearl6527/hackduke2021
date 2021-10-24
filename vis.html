@@ -13,16 +13,45 @@
       input[type=radio] {
 				margin-left: 40px;
 			}
+      #tooltip {
+				position: absolute;
+				width: auto;
+				height: auto;
+				padding: 5px 7px;
+				background-color: white;
+				-webkit-border-radius: 4px;
+				-moz-border-radius: 4px;
+				border-radius: 4px;
+				-webkit-box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+				-moz-box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+				box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+				pointer-events: none;
+        opacity: 0.9;
+			}
+			
+			#tooltip.hidden {
+				display: none;
+			}
+			
+			#tooltip p {
+				margin: 0;
+				font-family: sans-serif;
+				font-size: 12px;
+				line-height: 16px;
+			}
     </style>
   </head>
   <body>
+    
     <h1>Mental Health in Tech</h1>
-
+    <div id="tooltip" class="hidden">
+			<p><strong>Benefits: <span id="tooltipben">Yes/No</span></strong></p>
+			<p><span id="value">num_people, percent</span></p>
+		</div>
     <p>
       <input class="genderFilter" type="radio" name="filterPreset" value="clear" checked="true"> All
 			<input class="genderFilter" type="radio" name="filterPreset" value="0"> Female
 			<input class="genderFilter" type="radio" name="filterPreset" value="1"> Male
-			<input class="genderFilter" type="radio" name="filterPreset" value="2"> Other
 		</p>
 
     <svg height="10" width="10" xmlns="http://www.w3.org/2000/svg" version="1.1"> <defs> <pattern id="diagonal-stripe-3" patternUnits="userSpaceOnUse" width="10" height="10"> <image xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+CiAgPHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPSd3aGl0ZScvPgogIDxwYXRoIGQ9J00tMSwxIGwyLC0yCiAgICAgICAgICAgTTAsMTAgbDEwLC0xMAogICAgICAgICAgIE05LDExIGwyLC0yJyBzdHJva2U9J2JsYWNrJyBzdHJva2Utd2lkdGg9JzMnLz4KPC9zdmc+" x="0" y="0" width="10" height="10"> </image> </pattern> </defs> </svg>
@@ -51,20 +80,23 @@
           work_interfere: d.work_interfere,
           female: parseFloat(d.female),
           male: parseFloat(d.male),
-          other: parseFloat(d.other)
+          fn: parseFloat(d.fn),
+          fy: parseFloat(d.fy),
+          mn: parseFloat(d.mn),
+          my: parseFloat(d.my)
         };
 			};
 
 			d3.csv("gender_work.csv", rowConverter).then( (data)=> {
 				console.log(data);
 
-        let view = 0;
-        let n_groups = Object.keys(data[0]).length - 1;
+        let prev = "-1";
+        let n_groups = Object.keys(data[0]).length - 5;
         console.log(n_groups);
-        // let domain_labels = data.map(a => a.Gender);
-        // console.log(domain_labels);
+
         let key_attr = ["Never", "Rarely", "Sometimes", "Often", "NA"];
-        let gender_cat = ["female", "male", "other"];
+        let gender_cat = ["female", "male"];
+        let gender_subcat = [["fn", "fy"], ["mn", "my"]];
 
         let xScale = d3.scaleBand()
           .domain(key_attr)
@@ -73,7 +105,7 @@
           .paddingOuter(0.2);
 
         let yScale = d3.scaleLinear()
-          .domain([0, 1 + d3.max(data, (d)=> { return Math.max(d.female, d.male, d.other) })])
+          .domain([0, 5 + d3.max(data, (d)=> { return Math.max(d.female, d.male) })])
           .range([h - padding, padding]);
 
         let xAxis = d3.axisBottom()
@@ -93,47 +125,77 @@
           .attr("fill", "black")
           .attr("stroke", "black")
           .attr("stroke-width", 0.3)
-          .text("Work Interference by Gender");
+          .text("Work Interference by Gender & Access to Benefits");
 
         let colors = ["#2a4858", "#007383", "#00a08d", "#29c974", "#aeeb3e"];
-        let cumu_y = [];
-        for (let k = 0; k < key_attr.length; k++) {
-          cumu_y[k] = 0;
-        }
-
 
         for (let k = 0; k < n_groups; k++) {
-          // let t = textures.lines()
-          //   .orientation("3/8", "7/8")
-          //   .size(6)
-          //   .strokeWidth(1)
-          //   .shapeRendering("crispEdges")
-          //   .stroke(colors[k])
+          let t = textures.lines()
+            .size(4)
+            .strokeWidth(2)
+            .stroke(colors[k])
             // .fill(colors[k]);
           svg.call(t);
-          svg.selectAll("rect.group" + k)
+
+          let grp = svg.selectAll("g.group" + k)
             .data(data)
             .enter()
-            .append("rect")
+            .append("g")
             .attr("class", (d)=> {
-              let c = "group" + k;
+              let c = "group" + k + " data";
+              return c;
+            });
+
+          grp.append("rect")
+            .attr("class", (d)=> {
+              let c = "group" + k + " data benefits";
               return c;
             })
             .attr("x", (d)=> {
-              return 1 + xScale(d.work_interfere) + k * xScale.bandwidth() / 3;
+              return 2 + xScale(d.work_interfere) + k * xScale.bandwidth() / 2;
             })
             .attr("y", (d, i)=> {
-              // cumu_y[i] += d[gender_cat[k]];
-              // return yScale(cumu_y[i]);
+              return yScale(d[gender_subcat[k][1]]);
+            })
+            .attr("height", (d)=> {
+              return h - padding - yScale(d[gender_subcat[k][1]]);
+            })
+            .attr("width", xScale.bandwidth() / 2 - 4)
+            .attr("stroke", colors[k])
+            .attr("fill", colors[k])
+            .attr("opacity", 1)
+            .on("mouseover", function(event, d) {
+              create_tooltip(event, d, k, 1, d3.select(this));
+            })
+            .on("mouseout", function() {
+              d3.select("#tooltip").classed("hidden", true);
+            })
+
+          grp.append("rect")
+            .attr("class", (d)=> {
+              let c = "group" + k + " data nobenefits";
+              return c;
+            })
+            .attr("x", (d)=> {
+              return 2 + xScale(d.work_interfere) + k * xScale.bandwidth() / 2;
+            })
+            .attr("y", (d, i)=> {
               return yScale(d[gender_cat[k]]);
             })
             .attr("height", (d)=> {
-              return h - padding - yScale(d[gender_cat[k]]);
+              return h - padding - yScale(d[gender_subcat[k][0]]);
             })
-            .attr("width", xScale.bandwidth() / 3 - 2)
+            .attr("width", xScale.bandwidth() / 2 - 4)
             .attr("stroke", colors[k])
             .attr("fill", colors[k])
-            // .style("fill", t.url());
+            .attr("opacity", 1)
+            .on("mouseover", function(event, d) {
+              create_tooltip(event, d, k, 0, d3.select(this));
+            })
+            .on("mouseout", function() {
+              d3.select("#tooltip").classed("hidden", true);
+            })
+            .style("fill", t.url());
         }
 
         // axes
@@ -159,15 +221,27 @@
           .attr("x", 60)
           .attr("y", 320)
           .attr("transform", "rotate(270, 10, 300)")
-          .text("count");
+          .text("People (count)");
 
         // legend
         let legend_x = w - padding / 2;
+
+        svg.append("text")
+          .attr("class", "y label")
+          .attr("font-family", "sans-serif")
+          .attr("font-size", "14px")
+          .attr("fill", "black")
+          .attr("stroke", "black")
+          .attr("stroke-width", 0.3)
+          .attr("x", legend_x)
+          .attr("y", padding)
+          .text("Gender:");
+        
         for (let k = 0; k < gender_cat.length; k++) {
           svg.append("rect")
             .attr("class", "key gender group" + k)
             .attr("x", legend_x)
-            .attr("y", padding + (k + 1) * 18)
+            .attr("y", padding + (k + 0.5) * 18)
             .attr("fill", colors[k])
             .attr("width", 14)
             .attr("height", 14);
@@ -177,35 +251,205 @@
             .attr("font-size", 12)
             .attr("fill", "black")
             .attr("x", legend_x + 18)
-            .attr("y", padding + (k + 1) * 18 + 11)
+            .attr("y", padding + (k + 0.5) * 18 + 11)
+            .attr("font-family", "sans-serif");
+        }
+
+
+        svg.append("text")
+          .attr("class", "y label")
+          .attr("font-family", "sans-serif")
+          .attr("font-size", "14px")
+          .attr("fill", "black")
+          .attr("stroke", "black")
+          .attr("stroke-width", 0.3)
+          .attr("x", legend_x)
+          .attr("y", padding + (4 + 0) * 18)
+          .text("Has access to");
+        svg.append("text")
+          .attr("class", "y label")
+          .attr("font-family", "sans-serif")
+          .attr("font-size", "14px")
+          .attr("fill", "black")
+          .attr("stroke", "black")
+          .attr("stroke-width", 0.3)
+          .attr("x", legend_x)
+          .attr("y", padding + (5 + 0) * 18)
+          .text("employer benefits:");
+
+        let ben_cat = ["yes", "no"]
+        for (let k = 0; k < 2; k++) {
+          let t = textures.lines()
+            .size(4)
+            .strokeWidth(2);
+          svg.call(t);
+
+          let box = svg.append("rect")
+            .attr("class", "key ben group" + k)
+            .attr("x", legend_x)
+            .attr("y", padding + (k + 5.5) * 18)
+            .attr("fill", "#333333")
+            .attr("stroke", "#333333")
+            .attr("width", 13)
+            .attr("height", 13);
+          if (k == 1) {
+            box.style("fill", t.url());
+          }
+
+          svg.append("text")
+            .text(ben_cat[k])
+            .attr("class", "key ben group" + k)
+            .attr("font-size", 12)
+            .attr("fill", "black")
+            .attr("x", legend_x + 18)
+            .attr("y", padding + (k + 5.5) * 18 + 11)
             .attr("font-family", "sans-serif");
         }
         
         d3.selectAll("input.genderFilter")
           .on("click", function() {
-
-            // console.log(d3.select(this).node());
+            // console.log(d3.select(this).node().value);
             let cat = d3.select(this).node().value;
+            console.log(prev, cat);
 
             if (cat == "clear") {
-              d3.selectAll("rect")
-                .attr("opacity", 1);
+              yScale.domain([0, 5 + d3.max(data, (d)=> { return Math.max(d.female, d.male) })]);
+              
+              for (let k = 0; k < gender_cat.length; k++) {
+                d3.selectAll("text.group" + k)
+                  .transition()
+                  .attr("opacity", 1);
+                svg.selectAll("rect.data.benefits.group" + k)
+                  .data(data)
+                  .transition()
+                  .attr("x", (d)=> {
+                    return 2 + xScale(d.work_interfere) + k * xScale.bandwidth() / 2;
+                  })
+                  .attr("width", xScale.bandwidth() / 2 - 4)
+                  .transition()
+                  .attr("y", (d, i)=> {
+                    return yScale(d[gender_subcat[k][1]]);
+                  })
+                  .attr("height", (d)=> {
+                    return h - padding - yScale(d[gender_subcat[k][1]]);
+                  })
+                  .attr("opacity", 1);
+                svg.selectAll("rect.data.nobenefits.group" + k)
+                  .data(data)
+                  .transition()
+                  .attr("x", (d)=> {
+                    return 2 + xScale(d.work_interfere) + k * xScale.bandwidth() / 2;
+                  })
+                  .attr("width", xScale.bandwidth() / 2 - 4)
+                  .transition()
+                  .attr("y", (d, i)=> {
+                    return yScale(d[gender_cat[k]]);
+                  })
+                  .attr("height", (d)=> {
+                    return h - padding - yScale(d[gender_subcat[k][0]]);
+                  })
+                  .attr("opacity", 1);
+                svg.selectAll("rect.key.group" + k)
+                  .transition()
+                  .attr("opacity", 1);
+                
+                svg.select(".y.axis")
+                  .transition()
+                  .duration(1000)
+                  .call(yAxis);
+              }
+              prev = -1;
               return;
             }
 
-            d3.selectAll("rect")
-              .attr("opacity", 1);
-
             for (let k = 0; k < n_groups; k++) {
               if (k != cat) {
-                console.log(k);
-                d3.selectAll("rect.group" + k)
-                  .attr("opacity", 0.4);
+                if (prev != "-1") {
+                  d3.selectAll("rect.data.group" + k)
+                    // .data(data)
+                    .transition()
+                    .attr("y", (d)=> { return yScale(0) })
+                    .attr("height", (d)=> { return h - padding - yScale(0) })
+                    .transition()
+                    .attr("opacity", 0);
+                } else {
+                  d3.selectAll("rect.data.group" + k)
+                    // .data(data)
+                    .transition()
+                    .attr("opacity", 0)
+                    .transition()
+                    .attr("y", (d)=> { return yScale(0) })
+                    .attr("height", (d)=> { return h - padding - yScale(0) });
+                }
+                svg.selectAll("rect.key.group" + k)
+                  .transition()
+                  .attr("opacity", 0);
+                d3.selectAll("text.group" + k)
+                  .transition()
+                  .attr("opacity", 0);
               }
             }
 
+            yScale.domain([0, 5 + d3.max(data, (d)=> { return d[gender_cat[cat]] })]);
+            
+            d3.selectAll("rect.data.benefits.group" + cat)
+              .data(data)
+              .transition()
+              .attr("opacity", 1)
+              .attr("x", (d)=> { return 2 + xScale(d.work_interfere)})
+              .attr("width", xScale.bandwidth() - 4)
+              .transition()
+              .attr("y", (d)=> { return yScale(d[gender_subcat[cat][1]]) })
+              .attr("height", (d)=> { return h - padding - yScale(d[gender_subcat[cat][1]]) });
+            d3.selectAll("rect.data.nobenefits.group" + cat)
+              .data(data)
+              .transition()
+              .attr("opacity", 1)
+              .attr("x", (d)=> { return 2 + xScale(d.work_interfere)})
+              .attr("width", xScale.bandwidth() - 4)
+              .transition()
+              .attr("y", (d)=> { return yScale(d[gender_cat[cat]]) })
+              .attr("height", (d)=> { return h - padding - yScale(d[gender_subcat[cat][0]]) });
+            svg.selectAll("rect.key.group" + cat)
+              .transition()
+              .attr("opacity", 1);
+            d3.selectAll("text.group" + cat)
+              .transition()
+              .attr("opacity", 1);
+
+            svg.select(".y.axis")
+              .transition()
+              .duration(1000)
+              .call(yAxis);
+
+            prev = cat;
 
           });
+
+
+        function create_tooltip(event, d, k, m, item) {
+
+          let xPosition = parseFloat(item.attr("x")) + xScale.bandwidth() / 2;
+					let yPosition = padding + (2 * parseFloat(item.attr("y")) + parseFloat(item.attr("height"))) / 2;
+          
+          console.log(xPosition, yPosition)
+          console.log(parseFloat(item.attr("y")))
+          console.log(parseFloat(item.attr("height")))
+          //Update the tooltip position and value
+          let toolt = d3.select("#tooltip")
+            .style("left", xPosition + "px")
+            .style("top", yPosition + "px");			
+          
+          let percentage = 100 * d[gender_subcat[k][m]] / d[gender_cat[k]];
+          toolt.select("#value")
+            .text(d[gender_subcat[k][m]] + " (" + percentage.toFixed(1) + "%)");
+
+          toolt.select("#tooltipben")
+            .text(m % 2 == 1 ? "yes" : "no");
+
+          //Show the tooltip
+          d3.select("#tooltip").classed("hidden", false);
+        }
 
 			});
 
